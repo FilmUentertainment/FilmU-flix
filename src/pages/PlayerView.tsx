@@ -24,7 +24,7 @@ import { PlayerMeta, playerStatus } from "@/stores/player/slices/source";
 import { needsOnboarding } from "@/utils/onboarding";
 import { parseTimestamp } from "@/utils/timestamp";
 
-export function RealPlayerView() {
+function RealPlayerView() {
   const navigate = useNavigate();
   const params = useParams<{
     media: string;
@@ -46,6 +46,58 @@ export function RealPlayerView() {
   } = usePlayer();
   const { setPlayerMeta, scrapeMedia } = usePlayerMeta();
   const backUrl = useLastNonPlayerLink();
+
+  // Add inspect protection
+  useEffect(() => {
+    const handleContextMenu = (e: MouseEvent) => {
+      e.preventDefault();
+    };
+
+    const handleKeydown = (e: KeyboardEvent) => {
+      if (e.key === "F12") {
+        e.preventDefault();
+      }
+
+      if (
+        (e.ctrlKey && e.shiftKey && e.key === "I") ||
+        (e.metaKey && e.altKey && e.key === "i")
+      ) {
+        e.preventDefault();
+      }
+
+      if (
+        (e.ctrlKey && e.shiftKey && e.key === "C") ||
+        (e.metaKey && e.altKey && e.key === "c")
+      ) {
+        e.preventDefault();
+      }
+
+      if (e.ctrlKey && e.key === "u") {
+        e.preventDefault();
+      }
+    };
+
+    const handleDevTools = () => {
+      const threshold = 160;
+      const widthThreshold = window.outerWidth - window.innerWidth > threshold;
+      const heightThreshold =
+        window.outerHeight - window.innerHeight > threshold;
+
+      if (widthThreshold || heightThreshold) {
+        console.clear();
+      }
+    };
+
+    document.addEventListener("contextmenu", handleContextMenu);
+    document.addEventListener("keydown", handleKeydown);
+    window.addEventListener("resize", handleDevTools);
+
+    return () => {
+      document.removeEventListener("contextmenu", handleContextMenu);
+      document.removeEventListener("keydown", handleKeydown);
+      window.removeEventListener("resize", handleDevTools);
+    };
+  }, []);
 
   const paramsData = JSON.stringify({
     media: params.media,
