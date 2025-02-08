@@ -105,7 +105,7 @@ export function PlayerPart(props: PlayerPartProps) {
             <Player.EpisodeTitle />
           </div>
           <a
-            href="https://pstream.org"
+            href="https://filmu.fun"
             target="_blank"
             rel="noreferrer"
             className="hidden sm:flex items-center justify-end"

@@ -59,7 +59,7 @@ export function DownloadView({ id }: { id: string }) {
     return downloadUrl; // Return original if no specific pattern is found
   }, [downloadUrl]);
 
-  const hlsDownload = `https://hls-downloader.pstream.org/?url=${encodeURIComponent(processDownloadUrl())}`;
+  const hlsDownload = `https://hls-downloader.filmu.fun/?url=${encodeURIComponent(processDownloadUrl())}`;
   const [, copyToClipboard] = useCopyToClipboard();
 
   const sourceType = usePlayerStore((s) => s.source?.type);
@@ -93,7 +93,7 @@ export function DownloadView({ id }: { id: string }) {
                 Or, go to the{" "}
                 <a
                   className="text-type-link"
-                  href="https://hls-downloader.pstream.org/"
+                  href="https://hls-downloader.filmu.fun/"
                 >
                   hls downloader website
                 </a>{" "}
